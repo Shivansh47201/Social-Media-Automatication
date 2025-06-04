@@ -1,10 +1,14 @@
-import express, { json } from 'express'
+import express from 'express'
 import dotenv from 'dotenv';
+
+
+//internal import files
 import connectDB from './config/db.config.js';
+import app from './app.js';
 
 dotenv.config();
 
-const app = express();
+
 const PORT = process.env.PORT || 5020
 
 // app.use(express(), json)

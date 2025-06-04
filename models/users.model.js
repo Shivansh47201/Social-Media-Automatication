@@ -3,20 +3,29 @@ import mongoose, { Schema } from 'mongoose';
 const userSchema = new Schema({
   name: {
     type: String,
-    require: false,
+    required: false,
   },
   email: {
     type: String,
-    require: true,
+    required: true,
+    unique: true,
+    lowercase: true,
+    trim: true,
   },
  password: {
     type: String,
-    require: true,
+    required: true,
   },
   date: 
   { 
     type: Date, 
     default: Date.now,
   },
+  isAdmin: 
+  { 
+    type: Boolean, 
+    default: false,
+  },
 })
 
+export default mongoose.model('User', userSchema);
