@@ -1,5 +1,5 @@
 import User from "../models/users.model.js";
-import { hashPassword } from "../Auth/userAuth.auth.js";
+import { hashPassword } from "../utils/Auth/userAuth.auth.js";
 import generateToken from "../utils/generateToken.utils.js";
 import bcrypt from "bcrypt";
 
@@ -8,12 +8,14 @@ class AuthService {
     try {
       const { name, email, password } = body;
       const hashedPassword = await hashPassword(password);
+      console.log(hashedPassword)
 
       //Apply validation here
       return await User.create({
         name,
         email,
         password: hashedPassword,
+      
       });
     } catch (error) {
       throw new Error("User registration failed");

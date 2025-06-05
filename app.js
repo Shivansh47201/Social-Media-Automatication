@@ -30,13 +30,17 @@ app.use(cookieParser());
 
 
 //STATIC FILES 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "public/profile-images/uploads")));
+
 
 
 //Routes
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+
+app.set("view engine","ejs")
+app.set("views", path.resolve("./views"));
 
 
 // 404 Route Handler
