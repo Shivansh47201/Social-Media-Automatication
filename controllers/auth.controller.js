@@ -2,9 +2,8 @@ import User from "../models/users.model.js";
 import AuthServices from "../services/auth.services.js";
 
 export const register = async (req, res) => {
-  // console.log(req)
   try {
-     const avatarPath = req.file ? `/uploads/${req.file.filename}` : null;
+    const avatarPath = req.file ? `/uploads/${req.file.filename}` : null;
 
     const userPayload = {
       ...req.body,
@@ -13,7 +12,12 @@ export const register = async (req, res) => {
     console.log("Uploaded file info:", req.file);
 
     const response = await AuthServices.register(userPayload);
-    return res.status(201).json({ success: true, data: response });
+    // response: { user, token }
+    return res.status(201).json({
+      success: true,
+      user: response.user,
+      token: response.token,
+    });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }

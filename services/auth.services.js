@@ -8,16 +8,27 @@ class AuthService {
     try {
       const { name, email, password, avatar } = body;
       const hashedPassword = await hashPassword(password);
-      console.log(hashedPassword)
 
-      //Apply validation here
-      return await User.create({
+      const user = await User.create({
         name,
         email,
         password: hashedPassword,
-        avatar
-      
+        avatar,
       });
+
+      // Generate JWT token after registration
+      const token = generateToken({
+        id: user._id,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      });
+
+      const { password: _, ...userWithoutPassword } = user.toObject();
+
+      return {
+        user: userWithoutPassword,
+        token,
+      };
     } catch (error) {
       throw new Error("User registration failed");
     }
