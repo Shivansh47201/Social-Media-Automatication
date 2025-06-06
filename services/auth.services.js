@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 class AuthService {
   async register(body) {
     try {
-      const { name, email, password } = body;
+      const { name, email, password, avatar } = body;
       const hashedPassword = await hashPassword(password);
       console.log(hashedPassword)
 
@@ -15,6 +15,7 @@ class AuthService {
         name,
         email,
         password: hashedPassword,
+        avatar
       
       });
     } catch (error) {
