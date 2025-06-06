@@ -8,19 +8,25 @@ const userValidation = (req, res, next) => {
     name: Joi.string().min(3).max(30).required(),
 
     password: Joi.string().min(8).max(15),
-    
-    email: Joi.string().email({
-      minDomainSegments: 2,
-      tlds: { allow: ["com", "net", "in"] },
-    }),
+
+    email: Joi.string()
+      .email({
+        minDomainSegments: 2,
+        tlds: { allow: ["com", "net", "in"] },
+      })
+      .custom((value, helpers) => {
+        if (!value.endsWith("@gmail.com")) {
+          return helpers.error("any.invalid");
+        }
+        return value;
+      }, "Gmail domain validation"),
   });
 
- 
-  const { error } =  schema.validate(userInfo);
-  if(error){
-    return res.status(501).json({error: error.details[0].message})
-  };
+  const { error } = schema.validate(userInfo);
+  if (error) {
+    return res.status(501).json({ error: error.details[0].message });
+  }
   next();
 };
 
-export default userValidation
+export default userValidation;
